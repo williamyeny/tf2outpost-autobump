@@ -21,7 +21,7 @@ function bumpTrades() {
   //wait if you have multiple trades
   var multTradeDelay = setInterval(function() {
     //bump a trade
-    App.api.request('trade.bump', { //App.api is tf2op specific code 
+    App.api.request('trade.bump', { //App.api is tf2op specific code
         tradeid: tradeIds[index]
     }, function(data) {
         if (data.bumped) {
@@ -39,7 +39,7 @@ function bumpTrades() {
       clearInterval(multTradeDelay); //stop looping
     }
 
-  }, getRandom(500, 1500));
+  }, getRandomInt(500, 1500));
   console.info("sleeping...");
 }
 
