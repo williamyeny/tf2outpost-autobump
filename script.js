@@ -4,40 +4,45 @@ var maxSleep = 2400000; //maximum time to sleep between bumps in milliseconds, 2
 var tradeIds = $(".trade:not(trade-closed)").attr("data-tradeid"); //grab trades
 
 if (tradeIds > 0) {
-
-  //start loop
+  //bump trades and start loop
   console.info("auto bumping...");
-  setInterval(function() {
-    var index = 0;
-
-    //wait if you have multiple trades
-    var multTradeDelay = setInterval(function() {
-      //bump a trade
-      App.api.request('trade.bump', {
-          tradeid: tradeIds[index]
-      }, function(data) {
-          if (data.bumped) {
-              console.info("trade " + tradeIds[index] + " successfully bumped");
-          } else {
-              console.info("trade " + tradeIds[index] + " failed to bump");
-          }
-      }, function(message) {
-          console.info("an error occured: " + message);
-      });
-
-      index++;
-
-      if (index === tradeIds.length) {
-        clearInterval(multTradeDelay);
-      }
-
-    }, getRandom(500, 1500));
-    console.info("sleeping...");
+  bumpTrades();
+  setInterval(function() { //pause for a random time and loop
+    bumpTrades();
   }, getRandomInt(minSleep, maxSleep));
-
-  function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
 } else {
   console.info("no open trades detected");
+}
+
+
+function bumpTrades() {
+  var index = 0;
+
+  //wait if you have multiple trades
+  var multTradeDelay = setInterval(function() {
+    //bump a trade
+    App.api.request('trade.bump', { //App.api is tf2op specific code 
+        tradeid: tradeIds[index]
+    }, function(data) {
+        if (data.bumped) {
+            console.info("trade " + tradeIds[index] + " successfully bumped");
+        } else {
+            console.info("trade " + tradeIds[index] + " failed to bump");
+        }
+    }, function(message) {
+        console.info("an error occured: " + message);
+    });
+
+    index++;
+
+    if (index === tradeIds.length) {
+      clearInterval(multTradeDelay); //stop looping
+    }
+
+  }, getRandom(500, 1500));
+  console.info("sleeping...");
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
