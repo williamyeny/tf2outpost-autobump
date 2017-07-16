@@ -1,9 +1,9 @@
 var minSleep = 1800000; //minimum time to sleep between bumps in milliseconds, 1800000 = 32 min
 var maxSleep = 2400000; //maximum time to sleep between bumps in milliseconds, 2400000 = 40 min
 
-var tradeIds = $(".trade:not(trade-closed)").attr("data-tradeid"); //grab trades
+var trades = $(".trade:not(trade-closed)"); //grab trades
 
-if (tradeIds > 0) {
+if (trades > 0) {
   //bump trades and start loop
   console.info("auto bumping...");
   bumpTrades();
@@ -21,13 +21,14 @@ function bumpTrades() {
   //wait if you have multiple trades
   var multTradeDelay = setInterval(function() {
     //bump a trade
+    var tradeId = $(trades[index]).attr("data-tradeid");
     App.api.request('trade.bump', { //App.api is tf2op specific code
-        tradeid: tradeIds[index];
+        tradeid: tradeId
     }, function(data) {
         if (data.bumped) {
-            console.info("trade " + tradeIds[index] + " successfully bumped");
+            console.info("trade " + tradeId + " successfully bumped");
         } else {
-            console.info("trade " + tradeIds[index] + " failed to bump");
+            console.info("trade " + tradeId + " failed to bump");
         }
     }, function(message) {
         console.info("an error occured: " + message);
@@ -35,7 +36,7 @@ function bumpTrades() {
 
     index++;
 
-    if (index === tradeIds.length) {
+    if (index === trades.length) {
       clearInterval(multTradeDelay); //stop looping
     }
 
