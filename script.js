@@ -3,7 +3,7 @@ var maxSleep = 2400000; //maximum time to sleep between bumps in milliseconds, 2
 
 var trades = $(".trade:not(trade-closed)"); //grab trades
 
-if (trades > 0) {
+if (trades.length > 0) {
   //bump trades and start loop
   console.info("auto bumping...");
   bumpTrades();
