@@ -22,7 +22,7 @@ function bumpTrades() {
   var multTradeDelay = setInterval(function() {
     //bump a trade
     App.api.request('trade.bump', { //App.api is tf2op specific code
-        tradeid: tradeIds[index]
+        tradeid: tradeIds[index];
     }, function(data) {
         if (data.bumped) {
             console.info("trade " + tradeIds[index] + " successfully bumped");
