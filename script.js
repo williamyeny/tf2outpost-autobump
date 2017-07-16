@@ -1,14 +1,17 @@
-var tradeIds = $(".trade:not(trade-closed)").attr("data-tradeid");
 var minSleep = 1800000; //minimum time to sleep between bumps in milliseconds, 1800000 = 32 min
 var maxSleep = 2400000; //maximum time to sleep between bumps in milliseconds, 2400000 = 40 min
+
+var tradeIds = $(".trade:not(trade-closed)").attr("data-tradeid"); //grab trades
 
 console.info("auto bumping...");
 
 //start loop
 setInterval(function() {
   var index = 0;
+
+  //wait if you have multiple trades
   var multTradeDelay = setInterval(function() {
-    //code found from JS file on tf2outpost site
+    //bump a trade
     App.api.request('trade.bump', {
         tradeid: tradeIds[index]
     }, function(data) {
