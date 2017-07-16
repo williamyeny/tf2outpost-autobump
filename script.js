@@ -31,7 +31,7 @@ setInterval(function() {
     }
 
   }, getRandom(500, 1500));
-
+  console.info("sleeping...");
 }, getRandomInt(minSleep, maxSleep));
 
 function getRandomInt(min, max) {
