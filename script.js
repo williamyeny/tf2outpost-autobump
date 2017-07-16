@@ -1,7 +1,7 @@
 var minSleep = 1800000; //minimum time to sleep between bumps in milliseconds, 1800000 = 32 min
 var maxSleep = 2400000; //maximum time to sleep between bumps in milliseconds, 2400000 = 40 min
 
-var trades = $(".trade:not(trade-closed)"); //grab trades
+var trades = $(".trade:not(.trade-closed)"); //grab trades
 
 if (trades.length > 0) {
   //bump trades and start loop
